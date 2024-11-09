@@ -1,3 +1,19 @@
+<?php
+session_start();
+require_once('conexao.php');
+
+if (isset($_POST['editar_tarefa'])) {
+    $tarefaId = mysqli_real_escape_string($conn, $_POST['editar_tarefa']);
+    $sql = "SELECT * FROM tarefas WHERE id = '{$tarefaId}'";
+    $query = mysqli_query($conn, $sql);
+    if (mysqli_num_rows($query) > 0) {
+        $tarefa = mysqli_fetch_array($query);
+    }
+} else {
+    header('Location: index.php');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -28,24 +44,27 @@
                     <div class="card-header">
                         <h5 class="d-inline card-title"></h5>
                         <form action="acoes.php" method="POST">
-                            <input type="text" name="txtTitulo" id="txtTitulo" class="form-control" placeholder="Título..."></input>
+                            <input type="text" name="txtId" id="txtId" class="d-none form-control" value="<?php echo $tarefa['id'];?>">
+                            <input type="text" name="txtTitulo" id="txtTitulo" class="form-control" placeholder="<?php echo $tarefa['nome'];?>"></input>
+                            <input type="text" name="placeholderTitulo" id="txtId" class="d-none form-control" value="<?php echo $tarefa['nome'];?>">
                     </div>
                     <div class="card-body d-flex-inline">
                         <label for="txtDescricao" class="text-info"><b>Digite uma descrição:</b></label>
-                        <input name="txtDescricao" id="txtDescricao" class="form-control"></input>
+                        <input name="txtDescricao" id="txtDescricao" class="form-control" placeholder="<?php echo $tarefa['descricao'];?>"></input>
+                        <input type="text" name="placeholderDescricao" id="txtId" class="d-none form-control" value="<?php echo $tarefa['descricao'];?>">
                         <div class="d-flex justify-content-between text-center">
                             <h6 class="d-inline w-50 mt-2"><span class="text-info">Prioridade</span>
                                 <div class="form-group">
                                     <select class="form-control" name="txtPrioridade" id="txtPrioridade">
-                                        <option value="1" id="select-p1">Baixa</option>
-                                        <option value="2" id="select-p2">Media</option>
-                                        <option value="3" id="select-p3">Alta</option>
+                                        <option value="1" id="select-p1" <?php if ($tarefa['prioridade'] == '1') { echo 'selected'; }?>>Baixa</option>
+                                        <option value="2" id="select-p2" <?php if ($tarefa['prioridade'] == '2') { echo 'selected'; }?>>Media</option>
+                                        <option value="3" id="select-p3" <?php if ($tarefa['prioridade'] == '3') { echo 'selected'; }?>>Alta</option>
                                     </select>
                                 </div>
                             </h6>
                             <h6 class="mt-2">
                                 <span class="text-info">Data de criação:
-                                    <input class="form-control" readonly placeholder="<?php echo date('d/m/Y', strtotime($tarefa['data_criacao'])); ?>">
+                                    <input class="form-control text-center" readonly placeholder="<?php echo date('d/m/Y', strtotime($tarefa['data_criacao'])); ?>">
                                 </span>
                             </h6>
                         </div>
@@ -53,12 +72,12 @@
                     <div class="card-footer d-flex justify-content-around">
 
                         <select class="form-select form-select-sm updateBg" id="status" type="text" name="txtStatus">
-                            <option value="0" id="select-status">Novo</option>
-                            <option value="1" id="select-pendente">Importante</option>
-                            <option value="2" id="select-emandamento">Em andamento</option>
-                            <option value="3" id="select-concluido">Concluído</option>
+                            <option value="0" id="select-status" <?php if ($tarefa['status'] == '0') { echo 'selected'; }?>>Novo</option>
+                            <option value="1" id="select-pendente" <?php if ($tarefa['status'] == '1') { echo 'selected'; }?>>Importante</option>
+                            <option value="2" id="select-emandamento" <?php if ($tarefa['status'] == '2') { echo 'selected'; }?>>Em andamento</option>
+                            <option value="3" id="select-concluido" <?php if ($tarefa['status'] == '3') { echo 'selected'; }?>>Concluído</option>
                         </select>
-                        <button type="submit" name="create_tarefa" class="btn btn-success text-light w-25"><i class="bi bi-floppy"></i></button>
+                        <button type="submit" name="editar_tarefa" class="btn btn-success text-light w-25"><i class="bi bi-floppy"></i></button>
                         </form>
                     </div>
                 </div>

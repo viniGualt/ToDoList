@@ -5,7 +5,8 @@ require_once('conexao.php');
 $sql = "SELECT t.id, t.nome, t.descricao, s.nome AS status, p.nome AS prioridade, t.data_criacao, t.data_limite, s.id AS s_id, p.id AS p_id
     FROM tarefas t
     JOIN prioridade p ON p.id = t.prioridade
-    JOIN status s ON s.id = t.status";
+    JOIN status s ON s.id = t.status
+    ORDER BY t.id";
 
 $tarefas = mysqli_query($conn, $sql);
 
@@ -65,7 +66,7 @@ if (isset($_GET['status']) && isset($_GET['id'])) {
                     </div>
                     <div class="card-footer d-flex justify-content-around">
 
-                        <select class="form-select form-select-sm" id="status" data-tarefaId="<?php echo $tarefa['id'];?>">
+                        <select class="form-select form-select-sm updateBg" id="status" data-tarefaId="<?php echo $tarefa['id'];?>">
                             <option value="0" id="select-status" <?php if ($tarefa['s_id'] == '0') { echo 'selected'; }?>>Novo</option>
                             <option value="1" id="select-pendente" <?php if ($tarefa['s_id'] == '1') { echo 'selected'; }?>>Importante</option>
                             <option value="2" id="select-emandamento" <?php if ($tarefa['s_id'] == '2') { echo 'selected'; }?>>Em andamento</option>
@@ -75,7 +76,7 @@ if (isset($_GET['status']) && isset($_GET['id'])) {
                             <button onclick="return confirm('Tem certeza que deseja excluir?')" name="delete_tarefa" type="submit" value="<?php echo $tarefa['id']?>" class="btn btn-danger text-light" id="excluir-tarefa"><i class="bi bi-trash-fill"></i></button>
                         </form>
                         <form action="tarefa-edit.php" method="POST">
-                            <button class="btn btn-info text-light" name="editar_tarefa" id="editar-tarefa" value="<?php echo $tarefa?>"> <i class="bi bi-pencil-square"></i></button>
+                            <button class="btn btn-info text-light" name="editar_tarefa" id="editar-tarefa" value="<?php echo $tarefa['id']?>"> <i class="bi bi-pencil-square"></i></button>
                         </form>
                     </div>
                 </div>
@@ -85,7 +86,7 @@ if (isset($_GET['status']) && isset($_GET['id'])) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="./script.js"></script>
+    <script src="./src/script.js"></script>
 </body>
 
 </html>
