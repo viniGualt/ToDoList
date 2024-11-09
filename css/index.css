@@ -1,0 +1,34 @@
+body {
+    background-color: #1f1f1f;
+}
+
+#status{
+    border: 0;
+    font-weight: bold;
+    text-align: center;
+}
+
+.card.bg-secondary.text-light{
+    border-radius: 1vw;
+    width: 25vw;
+}
+
+#select-status, .new {
+    background-color: #ffffff;
+    font-weight: bold;
+}
+
+#select-pendente, .todo {
+    background-color: #ffff00;
+    font-weight: bold;
+}
+
+#select-emandamento, .doing {
+    background-color: #52fc52;
+    font-weight: bold;
+}
+
+#select-concluido, .concluido {
+    background-color: #979797;
+    font-weight: bold;
+}
